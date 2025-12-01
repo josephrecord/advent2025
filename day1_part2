@@ -1,0 +1,51 @@
+with open("input.txt") as f:
+    lines = [x.strip() for x in f.readlines()]
+
+# lines = ["L68",
+# "L30",
+# "R48",
+# "L5",
+# "R60",
+# "L55",
+# "L1",
+# "L99",
+# "R14",
+# "L82"]
+
+pos = 50
+points_at_zero = 0
+thru_zero = 0
+
+for line in lines:
+    print(f"pos: {pos}")
+    print(line)
+
+    n = int(line[1:])
+    print(f"n: {n}")
+    if n >= 100:
+        thru_zero += n // 100
+    n = n % 100
+    if line.startswith("L"):
+        if (pos - n < 0) and pos != 0 :
+            thru_zero += 1
+            print("left thru 0")
+        pos = pos - n
+    elif line.startswith("R"):
+        if (pos + n > 100) and pos != 0:
+            thru_zero += 1
+            print("right thru 0")
+        pos = pos + n
+    else:
+        raise ValueError
+    pos = pos % 100
+    
+    if pos == 0:
+        points_at_zero += 1
+        print("points at zero")
+    
+    print(f"newpos: {pos}")
+    print()
+
+print(points_at_zero)
+print(thru_zero)
+print(points_at_zero + thru_zero)
